@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Post,
-  Body,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { plainToInstance } from 'class-transformer';
@@ -28,7 +20,6 @@ export class UsersController {
   }
 
   @Post('/save')
-  @UsePipes(new ValidationPipe())
   async create(@Body() createUserDto: CreateUserDto) {
     await this.usersService.create(createUserDto);
     return { message: '创建成功' };

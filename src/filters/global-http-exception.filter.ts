@@ -4,7 +4,6 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
-  Logger,
 } from '@nestjs/common';
 
 @Catch()
@@ -12,22 +11,24 @@ export class GlobalHttpExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
-
-    const code =
+    const status =
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const message =
-      exception instanceof HttpException
-        ? exception.getResponse()
-        : '服务内部错误';
-    Logger.error(`Exception: ${message}`, exception);
+    let message = '服务内部错误';
+    if (exception instanceof HttpException) {
+      const exceptionResponse = exception.getResponse();
+      message =
+        typeof exceptionResponse === 'object' && 'message' in exceptionResponse
+          ? (exceptionResponse.message as string)
+          : String(exceptionResponse);
+    }
 
-    response.status(code).json({
-      code,
+    response.status(status).json({
+      code: status,
       data: null,
-      message,
+      message: typeof message === 'string' ? message : JSON.stringify(message),
     });
   }
 }
