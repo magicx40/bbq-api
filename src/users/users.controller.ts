@@ -3,6 +3,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { plainToInstance } from 'class-transformer';
 import { QueryUserDto } from './dto/query-user.dto';
+import { password_hash } from 'src/util/bcrypt';
 
 @Controller('users')
 export class UsersController {
@@ -19,8 +20,9 @@ export class UsersController {
     return this.usersService.findOne(+id);
   }
 
-  @Post('/save')
+  @Post('save')
   async create(@Body() createUserDto: CreateUserDto) {
+    createUserDto.password = await password_hash(createUserDto.password);
     await this.usersService.create(createUserDto);
     return { message: '创建成功' };
   }

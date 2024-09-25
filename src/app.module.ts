@@ -5,12 +5,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfig } from './config';
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { GlobalHttpExceptionFilter } from './filters/global-http-exception.filter';
 import { TransformInterceptor } from './interceptor/transform.interceptor';
+import { AuthModule } from './auth/auth.module';
+import { RolesGuard } from './roles/roles.guard';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(TypeOrmConfig), UsersModule, RolesModule],
+  imports: [
+    TypeOrmModule.forRoot(TypeOrmConfig),
+    UsersModule,
+    RolesModule,
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,
@@ -21,6 +29,14 @@ import { TransformInterceptor } from './interceptor/transform.interceptor';
     {
       provide: APP_INTERCEPTOR,
       useClass: TransformInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })

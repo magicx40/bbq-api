@@ -1,10 +1,17 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Role } from 'src/roles/entities/role.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
+  @Column({ unique: true })
   username: string;
 
   @Column()
@@ -15,4 +22,13 @@ export class User {
 
   @Column({ name: 'created_at' })
   createdAt: Date;
+
+  @ManyToMany(() => Role, (role) => role.users)
+  @JoinTable({
+    //双向关系，只需要关系拥有者，写此注解即可
+    name: 'user_roles', // 中间表名
+    joinColumn: { name: 'user_id', referencedColumnName: 'id' }, // 当前实体（User）的外键
+    inverseJoinColumn: { name: 'role_id', referencedColumnName: 'id' }, // 关联实体（Role）的外键
+  })
+  roles: Role[];
 }
