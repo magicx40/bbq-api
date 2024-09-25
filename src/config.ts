@@ -9,4 +9,5 @@ export const TypeOrmConfig: TypeOrmModuleOptions = {
   database: 'bbq_api',
   autoLoadEntities: true,
   synchronize: false,
+  logging: true,
 };
