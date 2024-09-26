@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Role } from './entities/role.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { RoleDto } from './dto/role.dto';
 
 @Injectable()
 export class RolesService {
@@ -16,5 +17,10 @@ export class RolesService {
 
   findOne(id: number) {
     return this.usersRepository.findOneBy({ id });
+  }
+
+  async create(roleDto: RoleDto): Promise<Role> {
+    const role = await this.usersRepository.create(roleDto);
+    return this.usersRepository.save(role);
   }
 }

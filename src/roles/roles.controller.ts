@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { plainToClass } from 'class-transformer';
 import { RoleDto } from './dto/role.dto';
@@ -16,5 +16,11 @@ export class RolesController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.rolesService.findOne(+id);
+  }
+
+  @Post('save')
+  async save(@Body() roleDto: RoleDto) {
+    await this.rolesService.create(roleDto);
+    return { message: '创建角色成功' };
   }
 }
