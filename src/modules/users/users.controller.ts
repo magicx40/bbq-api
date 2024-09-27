@@ -4,7 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { plainToInstance } from 'class-transformer';
 import { QueryUserDto } from './dto/query-user.dto';
 import { password_hash } from 'src/util/bcrypt';
-import { Roles } from 'src/roles/roles.decorator';
+import { Roles } from 'src/modules/roles/roles.decorator';
 
 @Controller('users')
 export class UsersController {

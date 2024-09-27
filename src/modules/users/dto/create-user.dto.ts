@@ -8,7 +8,7 @@ import {
   Length,
   MaxLength,
 } from 'class-validator';
-import { RoleEnum } from 'src/roles/roles.enum';
+import { RoleEnum } from 'src/modules/roles/roles.enum';
 
 export class CreateUserDto {
   @IsString({ message: '用户名必须为字符串' })
