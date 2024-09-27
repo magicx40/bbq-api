@@ -6,6 +6,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { Role } from 'src/modules/roles/entities/role.entity';
 import { RoleEnum } from 'src/modules/roles/roles.enum';
 import { UpdateUserRolesDto } from '../roles/dto/update-user-roles.dto';
+import { QueryRoleDto } from '../roles/dto/query-role.dto';
+import { plainToInstance, instanceToPlain } from 'class-transformer';
 
 @Injectable()
 export class UsersService {
@@ -15,8 +17,19 @@ export class UsersService {
     @InjectRepository(Role)
     private rolesRepository: Repository<Role>,
   ) {}
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  async findAll(): Promise<User[]> {
+    const users = await this.usersRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.roles', 'roles')
+      .getMany();
+    // 将角色对象按照DTO对象格式化
+    users.forEach((user) => {
+      if (user.roles) {
+        const roleDto = plainToInstance(QueryRoleDto, user.roles);
+        user.roles = instanceToPlain(roleDto) as Role[];
+      }
+    });
+    return users;
   }
   findOne(id: number): Promise<User | null> {
     return this.usersRepository.findOneBy({ id });
@@ -47,8 +60,8 @@ export class UsersService {
   }
 
   async updateUserRoles(UpdateUserRolesDto: UpdateUserRolesDto): Promise<User> {
-    const { userId, roleIds } = UpdateUserRolesDto;
-    const user = await this.usersRepository.findOneBy({ username: userId });
+    const { username, roleIds } = UpdateUserRolesDto;
+    const user = await this.usersRepository.findOneBy({ username });
     if (!user) {
       throw new NotFoundException('User not found');
     }
