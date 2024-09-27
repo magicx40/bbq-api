@@ -4,12 +4,14 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { plainToInstance } from 'class-transformer';
 import { QueryUserDto } from './dto/query-user.dto';
 import { password_hash } from 'src/util/bcrypt';
-import { Roles } from 'src/modules/roles/roles.decorator';
+import { RoleEnum } from '../roles/roles.enum';
+import { Roles } from '../roles/roles.decorator';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Roles(RoleEnum.ADMIN)
   @Get()
   async findAll() {
     const users = await this.usersService.findAll();
@@ -20,7 +22,7 @@ export class UsersController {
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
   }
-  @Roles('ADMIN')
+
   @Post('save')
   async create(@Body() createUserDto: CreateUserDto) {
     createUserDto.password = await password_hash(createUserDto.password);
