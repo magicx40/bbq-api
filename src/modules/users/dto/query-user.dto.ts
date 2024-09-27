@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { Role } from 'src/modules/roles/entities/role.entity';
 
 export class QueryUserDto {
   @Exclude()
@@ -9,4 +10,5 @@ export class QueryUserDto {
   email: string;
   @Exclude()
   createdAt: Date;
+  roles: Role[];
 }

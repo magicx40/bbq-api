@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { In, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Role } from 'src/modules/roles/entities/role.entity';
 import { RoleEnum } from 'src/modules/roles/roles.enum';
+import { UpdateUserRolesDto } from '../roles/dto/update-user-roles.dto';
 
 @Injectable()
 export class UsersService {
@@ -43,5 +44,19 @@ export class UsersService {
       where: { username },
       relations: ['roles'],
     });
+  }
+
+  async updateUserRoles(UpdateUserRolesDto: UpdateUserRolesDto): Promise<User> {
+    const { userId, roleIds } = UpdateUserRolesDto;
+    const user = await this.usersRepository.findOneBy({ username: userId });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const roles = await this.rolesRepository.findBy({ id: In(roleIds) });
+    if (roles.length !== roleIds.length) {
+      throw new NotFoundException('One or more roles not found');
+    }
+    user.roles = roles;
+    return this.usersRepository.save(user);
   }
 }
