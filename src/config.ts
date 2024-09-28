@@ -17,3 +17,5 @@ export const RedisConfig: RedisSingleOptions = {
   type: 'single',
   url: 'redis://localhost:6379/1',
 };
+
+export const GLOBAL_API_PREFIX = 'api';

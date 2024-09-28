@@ -15,7 +15,7 @@ export class AuthService {
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOneByUsername(username);
-    if (user.roles) {
+    if (user?.roles) {
       const roleDto = plainToInstance(QueryRoleDto, user.roles);
       user.roles = instanceToPlain(roleDto) as Role[];
     }
@@ -33,7 +33,7 @@ export class AuthService {
       roles: user.roles,
     };
     return {
-      access_token: this.jwtService.sign(payload),
+      accessToken: this.jwtService.sign(payload),
     };
   }
 }

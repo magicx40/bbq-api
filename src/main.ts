@@ -1,11 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { BadRequestException, Logger, ValidationPipe } from '@nestjs/common';
+import { GLOBAL_API_PREFIX } from './config';
 
 declare const module: any;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix(GLOBAL_API_PREFIX);
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
