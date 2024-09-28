@@ -19,9 +19,10 @@ export class UsersController {
     return plainToInstance(QueryUserDto, users);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @Get('get/:username')
+  findOne(@Param('username') username: string) {
+    const user = this.usersService.findOne(username);
+    return plainToInstance(QueryUserDto, user);
   }
 
   @Post('save')

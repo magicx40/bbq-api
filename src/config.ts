@@ -1,3 +1,4 @@
+import { RedisSingleOptions } from '@nestjs-modules/ioredis';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 export const TypeOrmConfig: TypeOrmModuleOptions = {
@@ -10,4 +11,9 @@ export const TypeOrmConfig: TypeOrmModuleOptions = {
   autoLoadEntities: true,
   synchronize: false,
   logging: true,
+};
+
+export const RedisConfig: RedisSingleOptions = {
+  type: 'single',
+  url: 'redis://localhost:6379/1',
 };

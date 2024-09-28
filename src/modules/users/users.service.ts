@@ -31,8 +31,17 @@ export class UsersService {
     });
     return users;
   }
-  findOne(id: number): Promise<User | null> {
-    return this.usersRepository.findOneBy({ id });
+  async findOne(username: string): Promise<User | null> {
+    const user = await this.usersRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.roles', 'roles')
+      .where('user.username = :username', { username })
+      .getOne();
+    if (user.roles) {
+      const roleDto = plainToInstance(QueryRoleDto, user.roles);
+      user.roles = instanceToPlain(roleDto) as Role[];
+    }
+    return user;
   }
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { username, password, email } = createUserDto;
