@@ -1,12 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { BadRequestException, Logger, ValidationPipe } from '@nestjs/common';
-import { GLOBAL_API_PREFIX } from './config';
+import { APP_DEFAULT_PORT, GLOBAL_API_PREFIX } from './config';
+import { ConfigService } from '@nestjs/config';
 
 declare const module: any;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
+  const port = configService.get<number>('SERVICE_PORT') || APP_DEFAULT_PORT;
   app.setGlobalPrefix(GLOBAL_API_PREFIX);
   app.useGlobalPipes(
     new ValidationPipe({
@@ -21,7 +24,7 @@ async function bootstrap() {
       },
     }),
   );
-  await app.listen(3000);
+  await app.listen(port);
   const service_url = await app.getUrl();
   Logger.log(`Application is running on: ${service_url}`);
 

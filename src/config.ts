@@ -1,6 +1,9 @@
 import { RedisSingleOptions } from '@nestjs-modules/ioredis';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
+export const GLOBAL_API_PREFIX = 'api';
+export const APP_DEFAULT_PORT = 3000;
+
 export const TypeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
   host: 'localhost',
@@ -18,4 +21,7 @@ export const RedisConfig: RedisSingleOptions = {
   url: 'redis://localhost:6379/1',
 };
 
-export const GLOBAL_API_PREFIX = 'api';
+export const AppConfig = {
+  envFilePath: '.env',
+  isGlobal: true,
+};
