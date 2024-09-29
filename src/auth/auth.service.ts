@@ -5,12 +5,16 @@ import { JwtService } from '@nestjs/jwt';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { Role } from 'src/modules/roles/entities/role.entity';
 import { QueryRoleDto } from 'src/modules/roles/dto/query-role.dto';
+import { InjectRedis } from '@nestjs-modules/ioredis';
+import Redis from 'ioredis';
+import { JWT_EXPIRATION, REDIS_JWT_PREFIX } from './const';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    @InjectRedis() private readonly redis: Redis,
   ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
@@ -32,8 +36,15 @@ export class AuthService {
       sub: user.id,
       roles: user.roles,
     };
+    const accessToken = this.jwtService.sign(payload);
+    this.redis.set(
+      `${REDIS_JWT_PREFIX}${payload.username}`,
+      accessToken,
+      'EX',
+      JWT_EXPIRATION,
+    );
     return {
-      accessToken: this.jwtService.sign(payload),
+      accessToken,
     };
   }
 }
