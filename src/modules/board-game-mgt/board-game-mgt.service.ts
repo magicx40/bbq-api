@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BoardGame } from './entities/board-game.entity';
 import { ListBoardGameDto } from './dto/list-board-game.dto';
+import { CreateBoardGameDto } from './dto/create-board-game.dto';
 
 @Injectable()
 export class BoardGameMgtService {
@@ -55,5 +56,10 @@ export class BoardGameMgtService {
       limit,
       total,
     };
+  }
+
+  async create(createBoardGameDto: CreateBoardGameDto): Promise<BoardGame> {
+    const boardGame = this.boardGameRepository.create(createBoardGameDto);
+    return this.boardGameRepository.save(boardGame);
   }
 }
