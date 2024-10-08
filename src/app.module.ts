@@ -14,6 +14,7 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { LoggerMiddleware } from './logger/logger.middleware';
 import { RedisModule } from '@nestjs-modules/ioredis';
 import { ConfigModule } from '@nestjs/config';
+import { BoardGameMgtModule } from './modules/board-game-mgt/board-game-mgt.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ConfigModule } from '@nestjs/config';
     RolesModule,
     RedisModule.forRoot(RedisConfig),
     AuthModule,
+    BoardGameMgtModule,
   ],
   controllers: [AppController],
   providers: [
