@@ -47,4 +47,12 @@ export class AuthService {
       accessToken,
     };
   }
+
+  async logout(username: string) {
+    return this.redis.del(`${REDIS_JWT_PREFIX}${username}`);
+  }
+
+  getUserByToken(token: string) {
+    return this.jwtService.verify(token);
+  }
 }
