@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { BoardGame } from './entities/board-game.entity';
 import { ListBoardGameDto } from './dto/list-board-game.dto';
 import { CreateBoardGameDto } from './dto/create-board-game.dto';
+import { UpdateBoardGameDto } from './dto/update-board-game.dto';
 
 @Injectable()
 export class BoardGameMgtService {
@@ -61,5 +62,10 @@ export class BoardGameMgtService {
   async create(createBoardGameDto: CreateBoardGameDto): Promise<BoardGame> {
     const boardGame = this.boardGameRepository.create(createBoardGameDto);
     return this.boardGameRepository.save(boardGame);
+  }
+
+  async update(id: number, updateBoardGameDto: UpdateBoardGameDto) {
+    await this.boardGameRepository.update(id, updateBoardGameDto);
+    return { message: '更新桌游信息成功' };
   }
 }

@@ -15,6 +15,7 @@ import { LoggerMiddleware } from './logger/logger.middleware';
 import { RedisModule } from '@nestjs-modules/ioredis';
 import { ConfigModule } from '@nestjs/config';
 import { BoardGameMgtModule } from './modules/board-game-mgt/board-game-mgt.module';
+import { PythonModule } from './modules/python/python.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { BoardGameMgtModule } from './modules/board-game-mgt/board-game-mgt.modu
     RedisModule.forRoot(RedisConfig),
     AuthModule,
     BoardGameMgtModule,
+    PythonModule,
   ],
   controllers: [AppController],
   providers: [
