@@ -16,4 +16,10 @@ export class ChaptersController {
   findAll(): Promise<Chapter[]> {
     return this.chaptersService.findAll();
   }
+
+  @Post('delete')
+  async deleteOne(@Body('id') id: number) {
+    await this.chaptersService.deleteOne(id);
+    return { message: '删除章节成功' };
+  }
 }

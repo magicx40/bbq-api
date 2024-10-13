@@ -30,4 +30,8 @@ export class ContentsService {
   findAll(): Promise<Content[]> {
     return this.contentsRepository.find({ relations: ['chapter'] });
   }
+
+  deleteOne(id: number) {
+    return this.contentsRepository.delete(id);
+  }
 }

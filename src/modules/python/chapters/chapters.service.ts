@@ -18,4 +18,8 @@ export class ChaptersService {
   findAll(): Promise<Chapter[]> {
     return this.chaptersRepository.find({ relations: ['contents'] });
   }
+
+  deleteOne(id: number) {
+    return this.chaptersRepository.delete(id);
+  }
 }

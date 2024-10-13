@@ -17,4 +17,10 @@ export class ContentsController {
   findAll(): Promise<Content[]> {
     return this.contentsService.findAll();
   }
+
+  @Post('delete')
+  async deleteOne(@Body() id: number) {
+    await this.contentsService.deleteOne(id);
+    return { message: '删除知识成功' };
+  }
 }
