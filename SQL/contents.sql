@@ -10,3 +10,7 @@ CREATE TABLE `contents` (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 -- 添加索引以优化查询性能。例如，可以在 contents 表的 chapter_id 字段上添加索引
 CREATE INDEX idx_chapter_id ON `contents`(`chapter_id`);
+-- 修改表结构，添加type字段来表示内容类型, 0文本类型，1代码类型
+ALTER TABLE `contents`
+ADD COLUMN `type` INT NOT NULL DEFAULT 0
+AFTER `example`;

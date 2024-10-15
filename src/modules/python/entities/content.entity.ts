@@ -32,6 +32,9 @@ export class Content {
   @Column({ type: 'text' })
   example: string;
 
+  @Column()
+  type: number;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

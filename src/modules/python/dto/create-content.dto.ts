@@ -23,4 +23,8 @@ export class CreateContentDto {
   @IsOptional()
   @IsString({ message: 'example必须为字符串' })
   example?: string;
+
+  @IsOptional()
+  @IsInt({ message: 'type必须为数字' })
+  type?: number;
 }
