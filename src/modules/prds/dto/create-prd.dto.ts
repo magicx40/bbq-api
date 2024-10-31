@@ -1,4 +1,11 @@
-import { IsNotEmpty, IsInt, IsString, MaxLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsInt,
+  IsString,
+  MaxLength,
+  IsEnum,
+} from 'class-validator';
+import { PrdPriorityEnum } from '../prds.enum';
 
 export class CreatePrdDto {
   @IsNotEmpty({ message: '标题不能为空' })
@@ -11,8 +18,10 @@ export class CreatePrdDto {
   description: string;
 
   @IsNotEmpty({ message: '优先级不能为空' })
-  @IsInt({ message: '优先级必须是数字' })
-  priority: number;
+  @IsEnum(PrdPriorityEnum, {
+    message: '优先级必须是Low(3) | Medium(2) | High(1)',
+  })
+  priority: PrdPriorityEnum;
 
   @IsNotEmpty({ message: '创建人不能为空' })
   @IsInt({ message: '创建人必须是数字' })

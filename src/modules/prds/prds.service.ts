@@ -12,4 +12,8 @@ export class PrdsService {
     const prd = this.prdsRepository.create(createPrdDto);
     return this.prdsRepository.save(prd);
   }
+
+  async findAll() {
+    return this.prdsRepository.find({ relations: ['createdBy'] });
+  }
 }
