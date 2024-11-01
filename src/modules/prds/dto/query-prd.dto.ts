@@ -1,8 +1,6 @@
-import { Exclude } from 'class-transformer';
 import { User } from 'src/modules/users/entities/user.entity';
 
 export class QueryPrdDto {
-  @Exclude()
   id: number;
   title: string;
   description: string;

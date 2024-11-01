@@ -22,4 +22,10 @@ export class PrdsController {
     }));
     return plainToInstance(QueryPrdDto, prdsWithConvertUsers);
   }
+
+  @Post('delete')
+  async deleteOne(@Body('id') id: number) {
+    await this.prdsService.deleteOne(id);
+    return { message: '删除成功' };
+  }
 }

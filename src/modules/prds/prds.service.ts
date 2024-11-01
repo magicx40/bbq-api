@@ -16,4 +16,8 @@ export class PrdsService {
   async findAll() {
     return this.prdsRepository.find({ relations: ['createdBy'] });
   }
+
+  async deleteOne(id: number) {
+    return this.prdsRepository.delete(id);
+  }
 }
