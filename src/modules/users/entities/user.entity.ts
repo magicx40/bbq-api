@@ -5,7 +5,9 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
+  OneToMany,
 } from 'typeorm';
+import { Blog } from 'src/modules/blogs/entities/blog.entity';
 
 @Entity('users')
 export class User {
@@ -31,4 +33,7 @@ export class User {
     inverseJoinColumn: { name: 'role_id', referencedColumnName: 'id' }, // 关联实体（Role）的外键
   })
   roles: Role[];
+
+  @OneToMany(() => Blog, (blog) => blog.user)
+  blogs: Blog[];
 }

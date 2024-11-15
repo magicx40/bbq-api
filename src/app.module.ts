@@ -17,6 +17,8 @@ import { ConfigModule } from '@nestjs/config';
 import { BoardGameMgtModule } from './modules/board-game-mgt/board-game-mgt.module';
 import { PythonModule } from './modules/python/python.module';
 import { PrdsModule } from './modules/prds/prds.module';
+import { BlogsModule } from './modules/blogs/blogs.module';
+import { TagsModule } from './modules/tags/tags.module';
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { PrdsModule } from './modules/prds/prds.module';
     BoardGameMgtModule,
     PythonModule,
     PrdsModule,
+    BlogsModule,
+    TagsModule,
   ],
   controllers: [AppController],
   providers: [
