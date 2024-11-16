@@ -7,6 +7,7 @@ import {
   ManyToOne,
   ManyToMany,
   JoinTable,
+  JoinColumn,
 } from 'typeorm';
 import { User } from 'src/modules/users/entities/user.entity';
 import { Tag } from 'src/modules/tags/entities/tag.entity';
@@ -16,8 +17,8 @@ export class Blog {
   @PrimaryGeneratedColumn({ comment: '主键' })
   id: number;
 
-  @Column({ type: 'int', nullable: false, comment: '用户id' })
-  user_id: number;
+  @Column({ name: 'user_id', type: 'int', nullable: false, comment: '用户id' })
+  userId: number;
 
   @Column({
     type: 'varchar',
@@ -46,8 +47,14 @@ export class Blog {
   @Column({ type: 'boolean', default: false, comment: '是否发布' })
   published: boolean;
 
-  @Column({ type: 'varchar', length: 255, nullable: true, comment: '封面链接' })
-  cover_link: string;
+  @Column({
+    name: 'cover_link',
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+    comment: '封面链接',
+  })
+  coverLink: string;
 
   @CreateDateColumn({
     name: 'created_at',
@@ -66,7 +73,11 @@ export class Blog {
   })
   updatedAt: Date;
 
+  /**
+   * @important ManyToOne关联, @JoinColumn 是必须的，需要显式指定外键列，不然的话默认生成的外键列会不符合你的数据库定义
+   */
   @ManyToOne(() => User, (user) => user.blogs)
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @ManyToMany(() => Tag, (tag) => tag.blogs, { cascade: true })

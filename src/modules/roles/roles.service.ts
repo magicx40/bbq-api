@@ -21,6 +21,6 @@ export class RolesService {
 
   async create(roleDto: RoleDto): Promise<Role> {
     const role = await this.usersRepository.create(roleDto);
-    return this.usersRepository.save(role);
+    return await this.usersRepository.save(role);
   }
 }

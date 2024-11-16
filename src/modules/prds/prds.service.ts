@@ -10,7 +10,7 @@ export class PrdsService {
 
   async create(createPrdDto: CreatePrdDto) {
     const prd = this.prdsRepository.create(createPrdDto);
-    return this.prdsRepository.save(prd);
+    return await this.prdsRepository.save(prd);
   }
 
   async findAll() {

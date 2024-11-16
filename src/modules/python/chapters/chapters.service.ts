@@ -10,9 +10,9 @@ export class ChaptersService {
     private chaptersRepository: Repository<Chapter>,
   ) {}
 
-  create(title: string): Promise<Chapter> {
+  async create(title: string): Promise<Chapter> {
     const chapter = this.chaptersRepository.create({ title });
-    return this.chaptersRepository.save(chapter);
+    return await this.chaptersRepository.save(chapter);
   }
 
   findAll(): Promise<Chapter[]> {

@@ -61,7 +61,7 @@ export class BoardGameMgtService {
 
   async create(createBoardGameDto: CreateBoardGameDto): Promise<BoardGame> {
     const boardGame = this.boardGameRepository.create(createBoardGameDto);
-    return this.boardGameRepository.save(boardGame);
+    return await this.boardGameRepository.save(boardGame);
   }
 
   async update(id: number, updateBoardGameDto: UpdateBoardGameDto) {

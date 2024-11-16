@@ -24,7 +24,7 @@ export class ContentsService {
     }
 
     const content = this.contentsRepository.create(createContentDto);
-    return this.contentsRepository.save(content);
+    return await this.contentsRepository.save(content);
   }
 
   findAll(): Promise<Content[]> {

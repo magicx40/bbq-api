@@ -59,7 +59,7 @@ export class UsersService {
       roles: existingRoles,
     });
 
-    return this.usersRepository.save(user);
+    return await this.usersRepository.save(user);
   }
   findOneByUsername(username: string): Promise<User | null> {
     return this.usersRepository.findOne({
@@ -79,6 +79,6 @@ export class UsersService {
       throw new NotFoundException('One or more roles not found');
     }
     user.roles = roles;
-    return this.usersRepository.save(user);
+    return await this.usersRepository.save(user);
   }
 }

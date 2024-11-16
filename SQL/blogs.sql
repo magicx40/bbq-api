@@ -2,7 +2,6 @@ CREATE TABLE IF NOT EXISTS `blogs`(
     `id` INT AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
     `user_id` INT NOT NULL COMMENT '用户id',
     `title` VARCHAR(255) UNIQUE NOT NULL COMMENT '标题',
-    `tag` VARCHAR(255) COMMENT '标签',
     `slug` VARCHAR(255) UNIQUE NOT NULL COMMENT 'url slug',
     `content` TEXT NOT NULL COMMENT '内容',
     `description` TEXT COMMENT '描述',

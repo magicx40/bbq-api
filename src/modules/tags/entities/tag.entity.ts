@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  JoinColumn,
 } from 'typeorm';
 import { TagType } from './tag-type.entity';
 import { Blog } from 'src/modules/blogs/entities/blog.entity';
@@ -59,6 +60,7 @@ export class Tag {
   updatedAt: Date;
 
   @ManyToOne(() => TagType, (tagType) => tagType.tags)
+  @JoinColumn({ name: 'type_id' })
   tagType: TagType;
 
   @ManyToMany(() => Blog, (blog) => blog.tags)
