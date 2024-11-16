@@ -22,6 +22,8 @@ export const RedisConfig: RedisSingleOptions = {
 };
 
 export const AppConfig = {
-  envFilePath: '.env',
+  envFilePath: process.env.NODE_ENV
+    ? `.env.${process.env.NODE_ENV}`
+    : '.env.example',
   isGlobal: true,
 };
