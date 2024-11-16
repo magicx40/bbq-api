@@ -1,14 +1,26 @@
 import { Body, Controller, Get, Post, Put, Param } from '@nestjs/common';
 import { BlogsService } from './blogs.service';
 import { CreateBlogsDto } from './dto/blogs.dto';
+import { plainToInstance } from 'class-transformer';
+import { QueryUserDto } from '../users/dto/query-user.dto';
+import { QueryBlogsDto } from './dto/query-blogs.dto';
 
 @Controller('blogs')
 export class BlogsController {
   constructor(private readonly blogsService: BlogsService) {}
 
   @Get()
-  findAll() {
-    return this.blogsService.findAll();
+  async findAll() {
+    const blogs = await this.blogsService.findAll();
+
+    const blogEntities = blogs.map((blog) => {
+      return {
+        ...blog,
+        user: plainToInstance(QueryUserDto, blog.user),
+      };
+    });
+
+    return plainToInstance(QueryBlogsDto, blogEntities);
   }
 
   @Post('save')
